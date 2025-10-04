@@ -1,0 +1,62 @@
+
+/* :root {
+
+} */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 10px;
+
+}
+
+img {
+    width: 100%;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+
+}
+
+.main {
+    width: 40rem;
+    border: 1px solid black;
+    padding: 1rem;
+    background-color: blue;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.main > * {
+    margin-bottom: 2rem;
+    
+}
+
+.countcolor {
+    font-size: 2rem;
+    border: 1px solid white;
+    padding: 0 1rem;
+    
+}
+
+.buttons button {
+    padding: 1rem;
+    margin: 0 1rem;
+    font-size: 1.5rem;
+    color: black;
+    font-weight: 700;
+    border: none;
+    
+}
