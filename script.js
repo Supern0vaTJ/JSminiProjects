@@ -17,10 +17,6 @@ buttons.addEventListener("click", (e)=>{
     }
 });
 
-
-
-
-
 // add.addEventListener("click", () => {
 //     count.innerHTML = Number(count.innerHTML) +1;
 // })
