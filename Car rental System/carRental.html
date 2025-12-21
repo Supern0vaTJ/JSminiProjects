@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Car Rental System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .container {
+      max-width: 500px;
+      background: #fff;
+      padding: 20px;
+      margin: auto;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+    }
+
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    .output {
+      margin-top: 15px;
+      background: #eee;
+      padding: 10px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🚗 Car Rental System</h1>
+
+<div class="container">
+
+  <h3>Rent a Car</h3>
+
+  <input type="text" id="customerName" placeholder="Enter your name">
+
+  <select id="carSelect"></select>
+
+  <input type="number" id="days" placeholder="Number of days">
+
+  <button onclick="rentCar()">Rent Car</button>
+
+  <h3>Return a Car</h3>
+
+  <select id="returnSelect"></select>
+
+  <button onclick="returnCar()">Return Car</button>
+
+  <div class="output" id="output"></div>
+
+</div>
+
+<script>
+  // ==== Data (same logic as Java backend) ====
+
+  const cars = [
+    { carId: "C001", brand: "Toyota", model: "Camry", price: 60, available: true },
+    { carId: "C002", brand: "Honda", model: "Accord", price: 70, available: true },
+    { carId: "C003", brand: "Mahindra", model: "Thar", price: 150, available: true }
+  ];
+
+  const rentals = [];
+
+  // ==== UI Helpers ====
+
+  function loadCars() {
+    const carSelect = document.getElementById("carSelect");
+    const returnSelect = document.getElementById("returnSelect");
+
+    carSelect.innerHTML = "";
+    returnSelect.innerHTML = "";
+
+    cars.forEach(car => {
+      if (car.available) {
+        const option = document.createElement("option");
+        option.value = car.carId;
+        option.text = `${car.carId} - ${car.brand} ${car.model}`;
+        carSelect.appendChild(option);
+      } else {
+        const option = document.createElement("option");
+        option.value = car.carId;
+        option.text = `${car.carId} - ${car.brand} ${car.model}`;
+        returnSelect.appendChild(option);
+      }
+    });
+  }
+
+  // ==== Rent Car ====
+
+  function rentCar() {
+    const name = document.getElementById("customerName").value;
+    const carId = document.getElementById("carSelect").value;
+    const days = parseInt(document.getElementById("days").value);
+    const output = document.getElementById("output");
+
+    if (!name || !carId || !days) {
+      output.innerHTML = "❌ Please fill all fields";
+      return;
+    }
+
+    const car = cars.find(c => c.carId === carId && c.available);
+
+    if (!car) {
+      output.innerHTML = "❌ Car not available";
+      return;
+    }
+
+    car.available = false;
+    rentals.push({ carId, name, days });
+
+    const total = car.price * days;
+
+    output.innerHTML = `
+      ✅ Car Rented Successfully<br>
+      Customer: ${name}<br>
+      Car: ${car.brand} ${car.model}<br>
+      Days: ${days}<br>
+      Total Price: $${total}
+    `;
+
+    loadCars();
+  }
+
+  // ==== Return Car ====
+
+  function returnCar() {
+    const carId = document.getElementById("returnSelect").value;
+    const output = document.getElementById("output");
+
+    const rentalIndex = rentals.findIndex(r => r.carId === carId);
+    if (rentalIndex === -1) {
+      output.innerHTML = "❌ Car not rented";
+      return;
+    }
+
+    const car = cars.find(c => c.carId === carId);
+    car.available = true;
+
+    const customerName = rentals[rentalIndex].name;
+    rentals.splice(rentalIndex, 1);
+
+    output.innerHTML = `✅ Car returned by ${customerName}`;
+
+    loadCars();
+  }
+
+  loadCars();
+</script>
+
+</body>
+</html>
